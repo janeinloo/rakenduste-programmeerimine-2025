@@ -14,7 +14,7 @@ function Counter() {
 
   return (
     <>
-      <h1>Vite + React + Jan</h1>
+      <h1>Counter</h1>
       <div className="card">
         <h2>Count: {count}</h2>
         <button onClick={() => increaseCounter(100)}>+100</button>
