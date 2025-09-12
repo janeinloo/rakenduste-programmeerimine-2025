@@ -1,0 +1,10 @@
+.dice-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.dice-content {
+    text-align: center;
+}
