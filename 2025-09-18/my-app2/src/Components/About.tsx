@@ -3,8 +3,13 @@ import {
   ListItem, ListItemText,
   TextField, Button, Container
 } from "@mui/material"
+import { useLocalStorage } from "./useLocalStorage"
 
 export default function About() {
+  const [name, setName] = useLocalStorage("name", "")
+  const [email, setEmail] = useLocalStorage("email", "")
+  const [message, setMessage] = useLocalStorage("message", "")
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -41,22 +46,29 @@ export default function About() {
           fullWidth
           label="Sinu nimi"
           margin="normal"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <TextField
           fullWidth
           label="Sinu email"
           margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           fullWidth
           label="Sõnum"
           margin="normal"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           multiline
           rows={4}
           />
         <Button
           variant="contained"
           color="primary"
+          type="submit"
           sx={{ mt: 2 }}
         >
           Saada
