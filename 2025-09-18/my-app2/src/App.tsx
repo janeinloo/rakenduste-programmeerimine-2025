@@ -1,33 +1,71 @@
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import "./App.css";
-import { Routes, Route, Link } from "react-router";
-import Home from "./Components/Home.tsx";
-import About from "./Components/About.tsx";
-import Something from "./Components/Something.tsx";
+import { useState } from "react"
+import "./App.css"
+import { Outlet, Link } from "react-router-dom"
+import { AppBar, Toolbar, Typography,
+  IconButton, Drawer, List,
+  ListItemButton, ListItemText, Box
+ } from "@mui/material"
+import MenuIcon from '@mui/icons-material/Menu';
 
-function App() {
+
+export default function Layout() {
+  const [open, setOpen] = useState(false)
+
+  const toggleDrawer = () => {
+    setOpen(!open)
+  }
+
   return (
-    <>
-      <Stack spacing={2} direction="row" sx={{ mb: 3 }}>
-        <Button component={Link} to="/" variant="contained">
-          Home
-        </Button>
-        <Button component={Link} to="/about" variant="contained">
-          About
-        </Button>
-        <Button component={Link} to="/something" variant="contained">
-          Something
-        </Button>
-      </Stack>
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/something" element={<Something />} />
-      </Routes>
-    </>
-  );
+    <Box sx={{display: 'flex'}}>
+      <AppBar position="fixed">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={toggleDrawer}
+            sx={{mr:2}}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            Minu Rakendus
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={toggleDrawer}
+      >
+        <Box sx={{ width: 250 }} role="presentation">
+          <List>
+            <ListItemButton
+              component={Link}
+              to="/"
+              onClick={toggleDrawer}
+            >
+              <ListItemText primary="Home" />
+            </ListItemButton>
+            <ListItemButton
+              component={Link}
+              to="/about"
+              onClick={toggleDrawer}
+            >
+              <ListItemText primary="About" />
+            </ListItemButton>
+            <ListItemButton
+              component={Link}
+              to="/something"
+              onClick={toggleDrawer}
+            >
+              <ListItemText primary="Something" />
+            </ListItemButton>
+          </List>
+        </Box>
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+        <Outlet />
+      </Box>
+    </Box>
+  )
 }
-
-export default App;
