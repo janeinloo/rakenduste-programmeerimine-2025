@@ -3,9 +3,10 @@ import React, { useState } from "react";
 
 type SubmitCatProps = {
   fetchCats: () => void;
+  setSnackbar: React.Dispatch<React.SetStateAction<{ open: boolean; message: string; severity: "success" | "error" }>>;
 };
 
-const SubmitCat = ({ fetchCats }: SubmitCatProps) => {
+const SubmitCat = ({ fetchCats, setSnackbar }: SubmitCatProps) => {
   const [name, setName] = useState("");
 
   const submitCat = async () => {
@@ -16,36 +17,36 @@ const SubmitCat = ({ fetchCats }: SubmitCatProps) => {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: name }),
+        body: JSON.stringify({ name }),
       });
 
       if (response.ok) {
-        console.log("Success", response);
-        // Snackbar success
+        setSnackbar({open: true, message: "Cat added successfully", severity: "success"});
+        setName("");
+        fetchCats();
       } else {
-        console.warn("No success");
-        // Snackbar
+        const error = await response.json();
+        setSnackbar({open: true, message: error.message || "Failed to add cat", severity: "error"});
       }
-    } catch (error) {
-      console.warn(error);
+    } catch {
+      setSnackbar({open: true, message: "Failed to add cat", severity: "error"});
     }
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
     submitCat();
-    setTimeout(fetchCats, 100);
   };
 
   return (
     <Box
-      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center", mt: 2 }}
     >
       <form onSubmit={handleSubmit}>
-        <Stack>
+        <Stack direction="row" spacing={1} alignItems="center">
           <TextField
             label="Cat name"
+            value={name}
             onChange={(event) => setName(event.target.value)}
           />
           <Button variant="contained" color="success" type="submit">
