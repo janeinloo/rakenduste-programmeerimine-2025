@@ -8,6 +8,13 @@ router.use(todoRouteMiddleware);
 
 router.get("/", todoGetRouteMiddleware, todoController.read);
 
+router.get("/admin", todoController.readAllTodos);
+
+router.put("/admin/toggle",
+    body("id").notEmpty().withMessage("ID is required"),
+    todoController.toggleDeleted
+)
+
 router.post("/",
     body("title").isString().notEmpty().withMessage("Title is required"),
     todoController.create

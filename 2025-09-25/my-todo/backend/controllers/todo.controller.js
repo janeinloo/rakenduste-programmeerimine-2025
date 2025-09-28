@@ -82,3 +82,20 @@ exports.delete = (req, res) => {
   todo.deleted = true;
   res.json({ message: "Todo deleted", todo });
 };
+
+exports.readAllTodos = (req, res) => {
+  res.json(todos);
+};
+
+exports.toggleDeleted = (req, res) => {
+  const { id } = req.body;
+  if (!id) return res.status(400).send({ message: "ID is required" });
+
+  const todo = todos.find(todo => todo.id === id);
+  if (!todo) return res.status(404).send({ message: "Todo not found" });
+
+  todo.deleted = !todo.deleted;
+  todo.updatedAt = Date.now();
+
+  res.json(todo);
+};
