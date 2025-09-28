@@ -9,13 +9,13 @@ router.use(todoRouteMiddleware);
 router.get("/", todoGetRouteMiddleware, todoController.read);
 
 router.post("/",
-    body("text").isString().notEmpty().withMessage("Text is required"),
+    body("title").isString().notEmpty().withMessage("Title is required"),
     todoController.create
 );
 
 router.put("/",
     body("id").notEmpty().withMessage("ID is required"),
-    body("text").isString().notEmpty().withMessage("Text is required"),
+    body("title").isString().notEmpty().withMessage("Title is required"),
     todoController.update
 );
 

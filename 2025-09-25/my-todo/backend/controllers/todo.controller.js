@@ -5,7 +5,7 @@ const { validationResult } = require("express-validator");
 const todos = [
     {
         id: crypto.randomUUID(),
-        text: "Learn React",
+        title: "Learn React",
         completed: false,
         createdAt: Date.now(),
         updatedAt: null,
@@ -27,11 +27,11 @@ exports.create = (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { text, completed } = req.body;
+  const { title, completed } = req.body;
 
   const newTodo = {
     id: crypto.randomUUID(),
-    text,
+    title,
     createdAt: Date.now(),
     updatedAt: null,
     completed: completed || false,
@@ -53,13 +53,13 @@ exports.update = (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { id, text, completed } = req.body;
+  const { id, title, completed } = req.body;
   const todo = todos.find(todo => todo.id === id && !todo.deleted);
   if (!todo) {
     return res.status(404).send({ message: "Todo not found" });
   }
 
-  todo.text = text;
+  todo.title = title;
   todo.updatedAt = Date.now();
   todo.completed = completed;
 
